@@ -1,10 +1,12 @@
 let local_time = null;
 
 function updateLocalTime() {
-    if (!local_time) return;
-    const timeString = local_time.toLocaleTimeString();
-    document.getElementById("local-time").innerHTML = "its " + timeString + " for me";
-    local_time = new Date(local_time.getTime() + 1000);
+    if (!local_time) {return;}
+    console.log();
+    const timeString = local_time.toLocaleTimeString("en-US", {hour12 : true, hour : "numeric", minute: "2-digit"});
+    console.log(timeString);
+    document.getElementById("local-time").textContent = "Time in Edmonton: " + timeString;
+    local_time.setSeconds(local_time.getSeconds() + 1);
 }
 
 async function fetchTime() {
@@ -18,8 +20,8 @@ async function fetchTime() {
             updateLocalTime();
 
     } catch (e) {
-            console.error("Time fetch failed:", e);
-            document.getElementById("local-time").innerHTML = "{failed to load time}";
+            document.getElementById("local-time").textContent = "failed to load time";
+            setTimeout(fetchTime, 5000);
     }
 }
 
